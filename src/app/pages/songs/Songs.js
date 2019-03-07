@@ -8,13 +8,8 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-import FolderIcon from "@material-ui/icons/Folder";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 
-import { capitalize } from "@material-ui/core/utils/helpers";
-import SpeedDial from "@material-ui/lab/SpeedDial";
-import SpeedDialIcon from "@material-ui/lab/SpeedDialIcon";
-import SpeedDialAction from "@material-ui/lab/SpeedDialAction";
 import FileCopyIcon from "@material-ui/icons/FileCopyOutlined";
 import SaveIcon from "@material-ui/icons/Save";
 import PrintIcon from "@material-ui/icons/Print";
@@ -43,12 +38,9 @@ class Songs extends React.Component {
   componentDidMount() {
     let model = new SongModel();
     model.search().then(data => this.setState({ list: data }));
-
-    this.context.router.history.push("/songs");
   }
 
   handleClick(obj) {
-    console.log(obj);
     this.setState({ selectedItem: obj });
   }
 
@@ -61,19 +53,14 @@ class Songs extends React.Component {
 
   render() {
     if (this.state.selectedItem) {
-      let target = "/songs/detail/" + this.state.selectedItem.songID;
-      return <Redirect to={target} />;
+      this.context.router.history.push("/songs/detail/" + this.state.selectedItem.songID);
     }
 
     return (
       <div>
         <List>
           {this.state.list.map((item, index) => (
-            <ListItem
-              button
-              key={item.songID}
-              onClick={this.handleClick.bind(this, item)}
-            >
+            <ListItem button key={item.songID} onClick={this.handleClick.bind(this, item)}>
               <ListItemIcon>
                 <ShareIcon />
               </ListItemIcon>

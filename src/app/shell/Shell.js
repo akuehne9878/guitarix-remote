@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Route } from "react-router-dom";
-
+import { Redirect } from "react-router-dom";
 import { BrowserHistory } from "react-router";
 
 import { unstable_Box as Box } from "@material-ui/core/Box";
@@ -17,7 +17,7 @@ import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
 
 import PrimaryMenu from "./PrimaryMenu";
 import SongsMenu from "../pages/songs/SongsMenu";
-
+import SongNewMenu from "../pages/songs/SongNewMenu";
 import PropTypes from "prop-types";
 
 const styles = {
@@ -58,11 +58,31 @@ class Shell extends React.Component {
     }
   };
 
-  back = () => {
-    //console.log(this.context.router.history);
+  renderBackButton = () => {
+    if (this.context.router.history.location.pathname !== "/") {
+      return (
+        <IconButton color="inherit" aria-label="Menu" onClick={this.back.bind(this)}>
+          <KeyboardArrowLeftIcon />
+        </IconButton>
+      );
+    }
+    return <div />;
+  };
 
-    this.props.history.goBack();
-    //this.context.router.history.goBack();
+  renderPrimaryMenuButton = () => {
+    if (this.context.router.history.location.pathname === "/") {
+      return (
+        <IconButton color="inherit" aria-label="Menu" onClick={this.togglePrimaryMenu.bind(this)}>
+          <MenuIcon />
+        </IconButton>
+      );
+    }
+
+    return <div />;
+  };
+
+  back = () => {
+    this.context.router.history.goBack();
   };
 
   render() {
@@ -73,13 +93,8 @@ class Shell extends React.Component {
             <Box display="flex" justifyContent="flex-start">
               <Box display="flex" justifyContent="flex-start" width="75%">
                 <Toolbar>
-                  <IconButton color="inherit" aria-label="Menu" onClick={this.back.bind(this)}>
-                    <KeyboardArrowLeftIcon />
-                  </IconButton>
-
-                  <IconButton color="inherit" aria-label="Menu" onClick={this.togglePrimaryMenu.bind(this)}>
-                    <MenuIcon />
-                  </IconButton>
+                  {this.renderBackButton()}
+                  {this.renderPrimaryMenuButton()}
                   <Typography variant="h6" color="inherit">
                     Pi
                   </Typography>
@@ -88,6 +103,7 @@ class Shell extends React.Component {
               <Box display="flex" justifyContent="flex-end" width="25%">
                 <Toolbar>
                   <Route exact path="/songs" component={SongsMenu} />
+                  <Route exact path="/songs/new" component={SongNewMenu} />
                 </Toolbar>
               </Box>
             </Box>
@@ -95,7 +111,7 @@ class Shell extends React.Component {
           <PrimaryMenu open={this.state.primaryMenu} onToggle={this.togglePrimaryMenu.bind(this)} />
         </div>
 
-        <Box width="100%" height="400px">
+        <Box  height="400px" marginTop="80px" marginLeft="30px" marginRight="30px">
           <div>{this.props.children}</div>
         </Box>
       </div>

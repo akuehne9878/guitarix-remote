@@ -11,12 +11,7 @@ class Home extends React.Component {
     super(props);
 
     this.state = {
-      tiles: [
-        { title: "test", description: "b", id: 1 },
-        { title: "test2", description: "d", id: 2 },
-        { title: "test3", description: "b", id: 3 },
-        { title: "test4", description: "d", id: 4 }
-      ]
+      tiles: [{ title: "test", description: "b", id: 1 }, { title: "test2", description: "d", id: 2 }, { title: "test3", description: "b", id: 3 }, { title: "test4", description: "d", id: 4 }]
     };
   }
 
@@ -25,7 +20,7 @@ class Home extends React.Component {
   };
 
   componentDidMount() {
-    this.context.router.history.push("/");
+    // this.context.router.history.push("/");
   }
 
   render() {

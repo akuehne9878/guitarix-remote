@@ -14,7 +14,6 @@ import SongModel from "../../model/SongModel.js";
 class SongDetail extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = { name: "", artist: "", songID: "" };
   }
 
@@ -31,9 +30,7 @@ class SongDetail extends React.Component {
 
   handleClick = () => event => {
     let model = new SongModel();
-    model
-      .update(this.state.songID, this.state)
-      .catch(err => console.error("Caught error: ", err));
+    model.update(this.state.songID, this.state).catch(err => console.error("Caught error: ", err));
   };
 
   handleChangeName = name => event => {
@@ -50,23 +47,10 @@ class SongDetail extends React.Component {
         <FormControl component="fieldset" margin="normal">
           <FormLabel component="legend">Edit Song</FormLabel>
           <FormGroup>
-            <TextField
-              label="Name"
-              value={this.state.name}
-              onChange={this.handleChangeName("name")}
-              margin="normal"
-            />
-            <TextField
-              label="Künstler"
-              value={this.state.artist}
-              onChange={this.handleChangeArtist("artist")}
-              margin="normal"
-            />
+            <TextField label="Name" value={this.state.name} onChange={this.handleChangeName("name")} margin="normal" />
+            <TextField label="Künstler" value={this.state.artist} onChange={this.handleChangeArtist("artist")} margin="normal" />
             <Button onClick={this.handleClick()}>Speichern</Button>
-            <Button
-              className="button icon-left"
-              onClick={this.context.router.history.goBack}
-            >
+            <Button className="button icon-left" onClick={this.context.router.history.goBack}>
               Back
             </Button>
           </FormGroup>

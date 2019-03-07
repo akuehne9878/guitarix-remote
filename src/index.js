@@ -4,6 +4,7 @@ import Button from "@material-ui/core/Button";
 
 import { BrowserRouter } from "react-router-dom";
 import { Route } from "react-router-dom";
+import { Switch } from "react-router-dom";
 
 import Shell from "./app/shell/Shell";
 import About from "./app/pages/about/About";
@@ -28,13 +29,15 @@ class App extends React.Component {
         <div>
           <BrowserRouter>
             <Shell>
-              <Route exact path="/" component={Home} />
-              <Route exact path="/about" component={About} />
-              <Route exact path="/topics" component={Topics} />
-              <Route exact path="/admin/" component={Admin} />
-              <Route exact path="/songs/" component={Songs} />
-              <Route exact path="/songs/detail/:id" component={SongDetail} />
-              <Route exact path="/songs/new" component={SongNew} />
+              <Switch>
+                <Route exact path="/" component={Home} />
+                <Route exact path="/about" component={About} />
+                <Route exact path="/topics" component={Topics} />
+                <Route exact path="/admin/" component={Admin} />
+                <Route exact path="/songs/" component={Songs} />
+                <Route exact path="/songs/detail/:id" component={SongDetail} />
+                <Route exact path="/songs/new" component={SongNew} />
+              </Switch>
             </Shell>
           </BrowserRouter>
         </div>

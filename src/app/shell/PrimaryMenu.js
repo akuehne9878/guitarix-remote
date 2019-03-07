@@ -17,20 +17,13 @@ import AppsIcon from "@material-ui/icons/Apps";
 class PrimaryMenu extends React.Component {
   constructor(props) {
     super(props);
-
-    console.log(props);
-
-    // this.toggletest.bind(this);
   }
 
   toggletest() {
-    console.log(this.props);
     this.props.onToggle();
   }
 
   render() {
-    //console.log(this.props);
-
     const list1 = [
       {
         name: "Home",
