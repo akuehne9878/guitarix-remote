@@ -73,19 +73,11 @@ class Shell extends React.Component {
             <Box display="flex" justifyContent="flex-start">
               <Box display="flex" justifyContent="flex-start" width="75%">
                 <Toolbar>
-                  <IconButton
-                    color="inherit"
-                    aria-label="Menu"
-                    onClick={this.back.bind(this)}
-                  >
+                  <IconButton color="inherit" aria-label="Menu" onClick={this.back.bind(this)}>
                     <KeyboardArrowLeftIcon />
                   </IconButton>
 
-                  <IconButton
-                    color="inherit"
-                    aria-label="Menu"
-                    onClick={this.togglePrimaryMenu.bind(this)}
-                  >
+                  <IconButton color="inherit" aria-label="Menu" onClick={this.togglePrimaryMenu.bind(this)}>
                     <MenuIcon />
                   </IconButton>
                   <Typography variant="h6" color="inherit">
@@ -100,10 +92,7 @@ class Shell extends React.Component {
               </Box>
             </Box>
           </AppBar>
-          <PrimaryMenu
-            open={this.state.primaryMenu}
-            onToggle={this.togglePrimaryMenu.bind(this)}
-          />
+          <PrimaryMenu open={this.state.primaryMenu} onToggle={this.togglePrimaryMenu.bind(this)} />
         </div>
 
         <Box width="100%" height="400px">

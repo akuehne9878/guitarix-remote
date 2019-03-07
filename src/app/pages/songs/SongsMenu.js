@@ -35,12 +35,9 @@ class SongsMenu extends React.Component {
 
     return (
       <div>
-        <IconButton color="inherit" aria-label="Menu" onClick={this.handleClick}>
-          <MoreVertIcon />
-        </IconButton>
-        <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={this.handleClose}>
-          <MenuItem onClick={this.handleNewSong}>New Song</MenuItem>
-        </Menu>
+        <Button variant="contained" color="primary" onClick={this.handleNewSong}>
+          New Song
+        </Button>
       </div>
     );
   }
