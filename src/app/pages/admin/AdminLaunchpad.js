@@ -1,8 +1,8 @@
 import React from "react";
 import { Route } from "react-router-dom";
 
-import Launchpad from "../../components/Launchpad";
-import LaunchpadTile from "../../components/LaunchpadTile";
+import TileContainer from "../../components/TileContainer";
+import Tile from "../../components/Tile";
 
 class AdminLaunchpad extends React.Component {
   constructor(props) {
@@ -11,10 +11,7 @@ class AdminLaunchpad extends React.Component {
     console.log(props);
 
     this.state = {
-      tiles: [
-        { title: "Entitäten", description: "b", id: 1 },
-        { title: "test2", description: "d", id: 2 }
-      ]
+      tiles: [{ title: "Entitäten", description: "b", id: 1 }, { title: "test2", description: "d", id: 2 }]
     };
   }
 
@@ -22,15 +19,11 @@ class AdminLaunchpad extends React.Component {
     let tiles = this.state.tiles;
     return (
       <div>
-        <Launchpad>
+        <TileContainer>
           {tiles.map(tile => (
-            <LaunchpadTile
-              key={tile.id}
-              title={tile.title}
-              route="/admin/entity"
-            />
+            <Tile key={tile.id} title={tile.title} route="/admin/entity" />
           ))}
-        </Launchpad>
+        </TileContainer>
       </div>
     );
   }

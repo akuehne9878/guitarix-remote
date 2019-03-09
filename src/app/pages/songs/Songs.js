@@ -1,34 +1,23 @@
 import React from "react";
-import { Route } from "react-router-dom";
-import { Redirect } from "react-router-dom";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import { unstable_Box as Box } from "@material-ui/core/Box";
+import PropTypes from "prop-types";
+import AddIcon from "@material-ui/icons/Add";
+import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 
 import SongModel from "../../model/SongModel.js";
-
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import NavigateNextIcon from "@material-ui/icons/NavigateNext";
-
-import FileCopyIcon from "@material-ui/icons/FileCopyOutlined";
-import SaveIcon from "@material-ui/icons/Save";
-import PrintIcon from "@material-ui/icons/Print";
-import ShareIcon from "@material-ui/icons/Share";
-import DeleteIcon from "@material-ui/icons/Delete";
-
-import PropTypes from "prop-types";
-
-const actions = [
-  { icon: <FileCopyIcon />, name: "Copy" },
-  { icon: <SaveIcon />, name: "Save" },
-  { icon: <PrintIcon />, name: "Print" },
-  { icon: <ShareIcon />, name: "Share" },
-  { icon: <DeleteIcon />, name: "Delete" }
-];
+import GuitarixAppBar, { Left, Right, Center } from "../../components/GuitarixAppBar.js";
+import TileContainer from "../../components/TileContainer";
+import Tile from "../../components/Tile";
 
 class Songs extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      list: []
+    };
   }
 
   static contextTypes = {
@@ -44,11 +33,8 @@ class Songs extends React.Component {
     this.setState({ selectedItem: obj });
   }
 
-  state = {
-    direction: "up",
-    open: false,
-    hidden: false,
-    list: []
+  handleNewSong = () => {
+    this.context.router.history.push("/songs/new");
   };
 
   render() {
@@ -58,17 +44,31 @@ class Songs extends React.Component {
 
     return (
       <div>
-        <List>
-          {this.state.list.map((item, index) => (
-            <ListItem button key={item.songID} onClick={this.handleClick.bind(this, item)}>
-              <ListItemIcon>
-                <ShareIcon />
-              </ListItemIcon>
-              <ListItemText primary={item.name} secondary={item.artist} />
-              <NavigateNextIcon />
-            </ListItem>
-          ))}
-        </List>
+        <GuitarixAppBar>
+          <Left>
+            <Button onClick={this.context.router.history.goBack}>
+              <NavigateBeforeIcon />
+              Back
+            </Button>
+          </Left>
+          <Center>
+            <Typography variant="h6">Songs</Typography>
+          </Center>
+          <Right>
+            <Button variant="contained" color="primary" onClick={this.handleNewSong.bind(this)}>
+              <AddIcon />
+              New Song
+            </Button>
+          </Right>
+        </GuitarixAppBar>
+
+        <Box display="flex" justifyContent="center">
+          <TileContainer>
+            {this.state.list.map((item, index) => (
+              <Tile key={item.songID} route={"/songs/detail/" + item.songID} title={item.name} onClick={this.handleClick.bind(this, item)} />
+            ))}
+          </TileContainer>
+        </Box>
       </div>
     );
   }

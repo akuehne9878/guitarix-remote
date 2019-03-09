@@ -1,4 +1,4 @@
-import React from "react";
+mport React from "react";
 import { Link } from "react-router-dom";
 import { Route } from "react-router-dom";
 import { Redirect } from "react-router-dom";
@@ -61,7 +61,11 @@ class Shell extends React.Component {
   renderBackButton = () => {
     if (this.context.router.history.location.pathname !== "/") {
       return (
-        <IconButton color="inherit" aria-label="Menu" onClick={this.back.bind(this)}>
+        <IconButton
+          color="inherit"
+          aria-label="Menu"
+          onClick={this.back.bind(this)}
+        >
           <KeyboardArrowLeftIcon />
         </IconButton>
       );
@@ -72,7 +76,11 @@ class Shell extends React.Component {
   renderPrimaryMenuButton = () => {
     if (this.context.router.history.location.pathname === "/") {
       return (
-        <IconButton color="inherit" aria-label="Menu" onClick={this.togglePrimaryMenu.bind(this)}>
+        <IconButton
+          color="inherit"
+          aria-label="Menu"
+          onClick={this.togglePrimaryMenu.bind(this)}
+        >
           <MenuIcon />
         </IconButton>
       );
@@ -81,37 +89,55 @@ class Shell extends React.Component {
     return <div />;
   };
 
+  getPageName = name => {
+    return (
+      <Typography variant="h6" color="inherit">
+        {name}
+      </Typography>
+    );
+  };
+
   back = () => {
     this.context.router.history.goBack();
+  };
+
+  test = () => {
+    return (
+      <div>
+        <AppBar position="fixed" color="default">
+          <Box display="flex" justifyContent="flex-start">
+            <Box display="flex" justifyContent="flex-start" width="75%">
+              <Toolbar>
+                {this.renderBackButton()}
+                {this.renderPrimaryMenuButton()}
+                {this.getPageName("doit")}
+              </Toolbar>
+            </Box>
+            <Box display="flex" justifyContent="flex-end" width="25%">
+              <Toolbar>
+                <Route exact path="/songs" component={SongsMenu} />
+                <Route exact path="/songs/new" component={SongNewMenu} />
+              </Toolbar>
+            </Box>
+          </Box>
+        </AppBar>
+        <PrimaryMenu
+          open={this.state.primaryMenu}
+          onToggle={this.togglePrimaryMenu.bind(this)}
+        />
+      </div>
+    );
   };
 
   render() {
     return (
       <div>
-        <div>
-          <AppBar position="fixed" color="default">
-            <Box display="flex" justifyContent="flex-start">
-              <Box display="flex" justifyContent="flex-start" width="75%">
-                <Toolbar>
-                  {this.renderBackButton()}
-                  {this.renderPrimaryMenuButton()}
-                  <Typography variant="h6" color="inherit">
-                    Pi
-                  </Typography>
-                </Toolbar>
-              </Box>
-              <Box display="flex" justifyContent="flex-end" width="25%">
-                <Toolbar>
-                  <Route exact path="/songs" component={SongsMenu} />
-                  <Route exact path="/songs/new" component={SongNewMenu} />
-                </Toolbar>
-              </Box>
-            </Box>
-          </AppBar>
-          <PrimaryMenu open={this.state.primaryMenu} onToggle={this.togglePrimaryMenu.bind(this)} />
-        </div>
-
-        <Box  height="400px" marginTop="80px" marginLeft="30px" marginRight="30px">
+        <Box
+          height="400px"
+          marginTop="80px"
+          marginLeft="30px"
+          marginRight="30px"
+        >
           <div>{this.props.children}</div>
         </Box>
       </div>

@@ -9,14 +9,19 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
+import Icon from "@material-ui/core/Icon";
+
+import { unstable_Box as Box } from "@material-ui/core/Box";
+import PlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
 
 const styles = {
   card: {
-    width: 170,
-    margin: 10
+    width: 160,
+    margin: 5,
+    marginTop: 10
   },
   content: {
-    height: 100
+    height: 130
   },
   icon: {
     width: 10,
@@ -28,41 +33,38 @@ const styles = {
   }
 };
 
-class LaunchpadTile extends React.Component {
+class Tile extends React.Component {
   constructor(props) {
     super(props);
+  }
 
-    this.state = {
-      iconStyles: {
-        tileIcon: {
-          width: 80,
-          height: 80,
-          color: "gray"
-        }
-      }
+  createIcon() {
+    const style = {
+      height: 60,
+      width: 60,
+      color: "gray"
     };
+    return (
+      <Box display="flex" justifyContent="flex-end" alignItems="flex-end" alignContent="flex-end" width="100%" height="70%">
+        {this.props.icon(style)}
+      </Box>
+    );
   }
 
   render() {
     const { classes } = this.props;
 
-    const { iconStyles } = this.state;
-
     return (
       <Card className={classes.card}>
         <CardActionArea component={Link} to={this.props.route}>
-          <CardContent className={classes.content} />
-          <AppBar position="static" color="default">
-            <Toolbar>
-              <Typography variant="h6" color="inherit">
-                {this.props.title}
-              </Typography>
-            </Toolbar>
-          </AppBar>
+          <CardContent className={classes.content}>
+            <Typography variant="h6">{this.props.title}</Typography>
+            {this.props.icon ? this.createIcon() : null}
+          </CardContent>
         </CardActionArea>
       </Card>
     );
   }
 }
 
-export default withStyles(styles)(LaunchpadTile);
+export default withStyles(styles)(Tile);
