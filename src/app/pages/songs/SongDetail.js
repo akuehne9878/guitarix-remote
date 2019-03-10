@@ -4,7 +4,12 @@ import Typography from "@material-ui/core/Typography";
 import { unstable_Box as Box } from "@material-ui/core/Box";
 import PropTypes from "prop-types";
 import SaveIcon from "@material-ui/icons/Save";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
+
+import MenuItem from "@material-ui/core/MenuItem";
+import Menu from "@material-ui/core/Menu";
+import IconButton from "@material-ui/core/IconButton";
 
 import TextField from "@material-ui/core/TextField";
 
@@ -13,15 +18,22 @@ import FormGroup from "@material-ui/core/FormGroup";
 
 import SongModel from "../../model/SongModel.js";
 import GuitarixAppBar, { Left, Right, Center } from "../../components/GuitarixAppBar.js";
+import MessageDialog from "../../components/MessageDialog";
 
 class SongDetail extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      name: "",
-      artist: ""
+      data: {
+        name: "",
+        artist: ""
+      },
+      showMsgDialog: false,
+      anchorEl: null
     };
+
+    this.handleCloseMessageDialog = this.handleCloseMessageDialog.bind(this);
   }
 
   static contextTypes = {
@@ -31,28 +43,58 @@ class SongDetail extends React.Component {
   componentDidMount() {
     let model = new SongModel();
     model.get(this.props.match.params.id).then(data => {
-      this.setState(data[0]);
+      this.setState({ data: data[0] });
     });
   }
 
-  handleClick() {
+  handleUpdate() {
     var that = this;
 
     let model = new SongModel();
     model
-      .update(this.state.songID, this.state)
+      .update(this.state.data.songID, this.state.data)
       .then(function() {
         that.context.router.history.goBack();
       })
       .catch(err => console.error("Caught error: ", err));
   }
 
-  handleChangeName = name => event => {
-    this.setState({ [name]: event.target.value });
+  handleDelete() {
+    var that = this;
+    new SongModel()
+      .delete(this.state.data.songID)
+      .then(function() {
+        that.context.router.history.goBack();
+      })
+      .catch(err => console.error("Caught error: ", err));
+  }
+
+  handleOpenMessageDialog() {
+    this.setState({ showMsgDialog: true });
+  }
+
+  handleCloseMessageDialog() {
+    this.setState({ showMsgDialog: false });
+  }
+
+  handleChangeName(event) {
+    var data = { ...this.state.data };
+    data.name = event.target.value;
+    this.setState({ data });
+  }
+
+  handleChangeArtist(event) {
+    var data = { ...this.state.data };
+    data.artist = event.target.value;
+    this.setState({ data });
+  }
+
+  handleOpenMenu = event => {
+    this.setState({ anchorEl: event.currentTarget });
   };
 
-  handleChangeArtist = artist => event => {
-    this.setState({ [artist]: event.target.value });
+  handleCloseMenu = () => {
+    this.setState({ anchorEl: null });
   };
 
   render() {
@@ -69,18 +111,29 @@ class SongDetail extends React.Component {
             <Typography variant="h6">Edit Song</Typography>
           </Center>
           <Right>
-            <Button variant="contained" color="primary" onClick={this.handleClick.bind(this)}>
-              <SaveIcon />
-              Update
-            </Button>
+            <Box display="flex">
+              <Menu anchorEl={this.state.anchorEl} open={Boolean(this.state.anchorEl)} onClose={this.handleCloseMenu.bind(this)}>
+                <MenuItem onClick={this.handleCloseMenu.bind(this)}>Duplicate</MenuItem>
+                <MenuItem onClick={this.handleOpenMessageDialog.bind(this)}>Delete</MenuItem>
+              </Menu>
+              <IconButton onClick={this.handleOpenMenu.bind(this)}>
+                <MoreVertIcon />
+              </IconButton>
+              <Button variant="contained" color="primary" onClick={this.handleUpdate.bind(this)}>
+                <SaveIcon />
+                Update
+              </Button>
+            </Box>
           </Right>
         </GuitarixAppBar>
+
+        <MessageDialog open={this.state.showMsgDialog} onClose={this.handleCloseMessageDialog} />
 
         <Box display="flex" justifyContent="center">
           <FormControl component="fieldset" margin="normal">
             <FormGroup>
-              <TextField label="Name" value={this.state.name} onChange={this.handleChangeName("name")} margin="normal" />
-              <TextField label="Artist" value={this.state.artist} onChange={this.handleChangeArtist("artist")} margin="normal" />
+              <TextField label="Name" value={this.state.data.name} onChange={this.handleChangeName.bind(this)} margin="normal" />
+              <TextField label="Artist" value={this.state.data.artist} onChange={this.handleChangeArtist.bind(this)} margin="normal" />
             </FormGroup>
           </FormControl>
         </Box>

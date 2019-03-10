@@ -59,6 +59,7 @@ class Tile extends React.Component {
         <CardActionArea component={Link} to={this.props.route}>
           <CardContent className={classes.content}>
             <Typography variant="h6">{this.props.title}</Typography>
+            <Typography variant="subtitle2">{this.props.description}</Typography>
             {this.props.icon ? this.createIcon() : null}
           </CardContent>
         </CardActionArea>

@@ -23,6 +23,10 @@ class SongModel extends Model {
   get(id) {
     return super.getObject(id);
   }
+
+  delete(id) {
+    return super.deleteObject(id);
+  }
 }
 
 export default SongModel;

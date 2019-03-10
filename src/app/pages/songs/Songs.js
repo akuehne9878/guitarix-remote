@@ -65,7 +65,7 @@ class Songs extends React.Component {
         <Box display="flex" justifyContent="center">
           <TileContainer>
             {this.state.list.map((item, index) => (
-              <Tile key={item.songID} route={"/songs/detail/" + item.songID} title={item.name} onClick={this.handleClick.bind(this, item)} />
+              <Tile key={item.songID} route={"/songs/detail/" + item.songID} title={item.name} description={item.artist} onClick={this.handleClick.bind(this, item)} />
             ))}
           </TileContainer>
         </Box>

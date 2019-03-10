@@ -26,14 +26,7 @@ class Model {
   }
 
   updateObject(id, object) {
-    console.log(
-      "Update object: " +
-        this.entityName +
-        " - " +
-        id +
-        " " +
-        JSON.stringify({ object: object })
-    );
+    console.log("Update object: " + this.entityName + " - " + id + " " + JSON.stringify({ object: object }));
 
     return fetch(this.baseUrl + this.entityName + "/" + id, {
       method: "PUT",
@@ -42,6 +35,16 @@ class Model {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({ object: object })
+    }).then(response => response.json());
+  }
+
+  deleteObject(id) {
+    return fetch(this.baseUrl + this.entityName + "/" + id, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
     }).then(response => response.json());
   }
 
