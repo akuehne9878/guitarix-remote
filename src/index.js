@@ -13,6 +13,7 @@ import Topics from "./app/pages/topics/Topics";
 import Songs from "./app/pages/songs/Songs";
 import SongDetail from "./app/pages/songs/SongDetail";
 import SongNew from "./app/pages/songs/SongNew";
+import Banks from "./app/pages/banks/Banks";
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -46,9 +47,12 @@ class App extends React.Component {
               <Route exact path="/about" component={About} />
               <Route exact path="/topics" component={Topics} />
               <Route exact path="/admin/" component={Admin} />
+
               <Route exact path="/songs/" component={Songs} />
               <Route exact path="/songs/detail/:id" component={SongDetail} />
               <Route exact path="/songs/new" component={SongNew} />
+
+              <Route exact path="/banks/" component={Banks} />
             </Switch>
           </BrowserRouter>
         </div>

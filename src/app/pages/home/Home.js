@@ -14,6 +14,8 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import EditIcon from "@material-ui/icons/Edit";
 import PlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
 
+import GuitarixModel from "../../model/GuitarixModel.js";
+
 import PropTypes from "prop-types";
 
 class Home extends React.Component {
@@ -24,7 +26,7 @@ class Home extends React.Component {
       items: [
         { title: "Live", route: "/", description: "b", id: 1, icon: style => <PlayCircleFilledIcon style={style} /> },
         { title: "Songs", route: "/songs", description: "d", id: 2, icon: style => <QueueMusicIcon style={style} /> },
-        { title: "Presets", route: "/", description: "b", id: 3, icon: style => <EditIcon style={style} /> },
+        { title: "Banks", route: "/banks", description: "b", id: 3, icon: style => <EditIcon style={style} /> },
         { title: "Tuner", route: "/", description: "d", id: 4, icon: style => <TuneIcon style={style} /> },
         { title: "Live", route: "/", description: "b", id: 5, icon: style => <PlayCircleFilledIcon style={style} /> },
         { title: "Songs", route: "/songs", description: "d", id: 6, icon: style => <QueueMusicIcon style={style} /> },
@@ -34,7 +36,8 @@ class Home extends React.Component {
         { title: "Songs", route: "/songs", description: "d", id: 10, icon: style => <QueueMusicIcon style={style} /> },
         { title: "Presets", route: "/", description: "b", id: 11, icon: style => <EditIcon style={style} /> },
         { title: "Tuner", route: "/", description: "d", id: 12, icon: style => <TuneIcon style={style} /> }
-      ]
+      ],
+      version: ""
     };
   }
 
@@ -42,12 +45,19 @@ class Home extends React.Component {
     router: PropTypes.object
   };
 
+  componentDidMount() {
+    let model = new GuitarixModel();
+    model.getVersion().then(data => {
+      this.setState({ version: data["result"][2] });
+    });
+  }
+
   render() {
     return (
       <div>
         <GuitarixAppBar>
           <Center>
-            <Typography variant="h6">Guitarix Remote</Typography>
+            <Typography variant="h6">Guitarix Remote {this.state.version}</Typography>
           </Center>
           <Right>
             <Button>Settings</Button>

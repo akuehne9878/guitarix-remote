@@ -18,7 +18,12 @@ import FormGroup from "@material-ui/core/FormGroup";
 
 import SongModel from "../../model/SongModel.js";
 import GuitarixAppBar, { Left, Right, Center } from "../../components/GuitarixAppBar.js";
-import MessageDialog from "../../components/MessageDialog";
+
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 class SongDetail extends React.Component {
   constructor(props) {
@@ -70,6 +75,7 @@ class SongDetail extends React.Component {
   }
 
   handleOpenMessageDialog() {
+    this.setState({ anchorEl: null });
     this.setState({ showMsgDialog: true });
   }
 
@@ -127,7 +133,20 @@ class SongDetail extends React.Component {
           </Right>
         </GuitarixAppBar>
 
-        <MessageDialog open={this.state.showMsgDialog} onClose={this.handleCloseMessageDialog} />
+        <Dialog open={this.state.showMsgDialog} onClose={this.handleCloseMessageDialog}>
+          <DialogTitle>Delete song</DialogTitle>
+          <DialogContent>
+            <DialogContentText>Do you really want to delete the current song?</DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleCloseMessageDialog} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={this.handleDelete.bind(this)} color="primary" autoFocus>
+              Delete
+            </Button>
+          </DialogActions>
+        </Dialog>
 
         <Box display="flex" justifyContent="center">
           <FormControl component="fieldset" margin="normal">

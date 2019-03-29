@@ -1,0 +1,5 @@
+{
+  "version": 2,
+  "name": "my-react-app",
+  "builds": [{ "src": "package.json", "use": "@now/now", "config": { "distDir": "build" } }]
+}

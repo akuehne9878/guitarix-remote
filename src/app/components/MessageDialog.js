@@ -11,10 +11,6 @@ class MessageDialog extends React.Component {
     super(props);
   }
 
-  handleClickOpen = () => {
-    // this.setState({ open: true });
-  };
-
   handleClose = () => {
     this.props.onClose();
   };
@@ -23,11 +19,9 @@ class MessageDialog extends React.Component {
     return (
       <div>
         <Dialog open={this.props.open} onClose={this.handleClose}>
-          <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
+          <DialogTitle>{this.props.title}</DialogTitle>
           <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.
-            </DialogContentText>
+            <DialogContentText>{this.props.text}</DialogContentText>
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClose} color="primary">
