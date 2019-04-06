@@ -26,7 +26,14 @@ class Banks extends React.Component {
 
   componentDidMount() {
     let model = new GuitarixModel();
-    model.getBanks().then(data => this.setState({ list: data.result }));
+    model.getBanks().then(data => {
+      var arr = data.result.map(function(item) {
+        item.description = item.presets.join(", ");
+        return item;
+      });
+
+      this.setState({ list: arr });
+    });
   }
 
   handleClick(obj) {
@@ -65,7 +72,7 @@ class Banks extends React.Component {
         <Box display="flex" justifyContent="center">
           <TileContainer>
             {this.state.list.map((item, index) => (
-              <Tile key={item.name} route={"/banks/detail/" + item.name} title={item.name} onClick={this.handleClick.bind(this, item)} />
+              <Tile key={item.name} route={"/banks/detail/" + item.name} title={item.name} description={item.description} onClick={this.handleClick.bind(this, item)} />
             ))}
           </TileContainer>
         </Box>

@@ -28,14 +28,7 @@ class Home extends React.Component {
         { title: "Songs", route: "/songs", description: "d", id: 2, icon: style => <QueueMusicIcon style={style} /> },
         { title: "Banks", route: "/banks", description: "b", id: 3, icon: style => <EditIcon style={style} /> },
         { title: "Tuner", route: "/", description: "d", id: 4, icon: style => <TuneIcon style={style} /> },
-        { title: "Live", route: "/", description: "b", id: 5, icon: style => <PlayCircleFilledIcon style={style} /> },
-        { title: "Songs", route: "/songs", description: "d", id: 6, icon: style => <QueueMusicIcon style={style} /> },
-        { title: "Presets", route: "/", description: "b", id: 7, icon: style => <EditIcon style={style} /> },
-        { title: "Tuner", route: "/", description: "d", id: 8, icon: style => <TuneIcon style={style} /> },
-        { title: "Live", route: "/", description: "b", id: 9, icon: style => <PlayCircleFilledIcon style={style} /> },
-        { title: "Songs", route: "/songs", description: "d", id: 10, icon: style => <QueueMusicIcon style={style} /> },
-        { title: "Presets", route: "/", description: "b", id: 11, icon: style => <EditIcon style={style} /> },
-        { title: "Tuner", route: "/", description: "d", id: 12, icon: style => <TuneIcon style={style} /> }
+        { title: "Rack", route: "/rack", description: "b", id: 5, icon: style => <PlayCircleFilledIcon style={style} /> }
       ],
       version: ""
     };

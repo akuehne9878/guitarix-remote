@@ -6,14 +6,15 @@ import { BrowserRouter } from "react-router-dom";
 import { Route } from "react-router-dom";
 import { Switch } from "react-router-dom";
 
-import About from "./app/pages/about/About";
 import Admin from "./app/pages/admin/Admin";
 import Home from "./app/pages/home/Home";
-import Topics from "./app/pages/topics/Topics";
+
 import Songs from "./app/pages/songs/Songs";
 import SongDetail from "./app/pages/songs/SongDetail";
 import SongNew from "./app/pages/songs/SongNew";
 import Banks from "./app/pages/banks/Banks";
+import Rack from "./app/pages/rack/Rack";
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -44,8 +45,6 @@ class App extends React.Component {
           <BrowserRouter>
             <Switch>
               <Route exact path="/" component={Home} />
-              <Route exact path="/about" component={About} />
-              <Route exact path="/topics" component={Topics} />
               <Route exact path="/admin/" component={Admin} />
 
               <Route exact path="/songs/" component={Songs} />
@@ -53,6 +52,8 @@ class App extends React.Component {
               <Route exact path="/songs/new" component={SongNew} />
 
               <Route exact path="/banks/" component={Banks} />
+
+              <Route path="/rack/" component={Rack} />
             </Switch>
           </BrowserRouter>
         </div>
