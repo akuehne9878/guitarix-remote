@@ -25,8 +25,6 @@ class Unit extends React.Component {
       params: [],
       currParam: { value: 0 }
     };
-
-    this.init();
   }
 
   init() {
@@ -98,16 +96,16 @@ class Unit extends React.Component {
         <Box width="50%" height="400px">
           <List style={{ maxHeight: "400px", overflow: "auto" }}>
             {this.state.params.map((item, index) => (
-              <MenuItem primary button key={item.key} onClick={this.loadParam.bind(this, item)}>
+              <ListItem button key={item.key} onClick={this.loadParam.bind(this, item)}>
                 <Box display="flex" justifyContent="space-between" alignContent="space-between" alignItems="begin" width="100%">
-                  <Typography>
+                  <Typography component="div">
                     <Box fontWeight={this.state.currParam.name === item.name ? 600 : 400}>{item.name}</Box>
                   </Typography>
-                  <Typography>
+                  <Typography component="div">
                     <Box fontWeight={this.state.currParam.name === item.name ? 600 : 400}>{item.value}</Box>
                   </Typography>
                 </Box>
-              </MenuItem>
+              </ListItem>
             ))}
           </List>
         </Box>

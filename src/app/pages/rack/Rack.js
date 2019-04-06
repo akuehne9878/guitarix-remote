@@ -125,16 +125,16 @@ class Rack extends React.Component {
           <Box justifyContent="begin" width="30%" height="100%">
             <List height="400px">
               {this.state.rack.units.map((item, index) => (
-                <MenuItem primary button key={item.unitName} onClick={this.loadUnit.bind(this, item)}>
+                <ListItem button key={item.unitName} onClick={this.loadUnit.bind(this, item)}>
                   <Box display="flex" justifyContent="space-between" alignContent="space-between" alignItems="begin" width="100%">
-                    <Typography>
+                    <Typography component="div">
                       <Box fontWeight={this.state.currUnit === item.unitName ? 600 : 400}>{item.unitName}</Box>
                     </Typography>
-                    <Typography>
+                    <Typography component="div">
                       <Box fontWeight={this.state.currUnit === item.unitName ? 600 : 400}>{item.value}</Box>
                     </Typography>
                   </Box>
-                </MenuItem>
+                </ListItem>
               ))}
             </List>
           </Box>
