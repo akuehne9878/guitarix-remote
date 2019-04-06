@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
+import Switch from "@material-ui/core/Switch";
 import Typography from "@material-ui/core/Typography";
 import { unstable_Box as Box } from "@material-ui/core/Box";
 import PropTypes from "prop-types";
@@ -60,7 +61,10 @@ class Unit extends React.Component {
         obj.key = key;
 
         obj.value = obj.value[key];
-        params.push(obj);
+
+        if (obj.name) {
+          params.push(obj);
+        }
       });
 
       that.setState({ params: params });
@@ -71,7 +75,7 @@ class Unit extends React.Component {
     this.load();
   }
 
-  changeValue = (event, val) => {
+  changeSliderValue = (event, val) => {
     if (this.state.currParam.step.toString().indexOf(".") > 0) {
       let decimalCount = this.state.currParam.step.toString().split(".")[1].length;
       val = val.toFixed(decimalCount);
@@ -80,10 +84,52 @@ class Unit extends React.Component {
     let obj = this.state.currParam;
     obj.value = val;
     this.setState({ currParam: obj });
+
+    new GuitarixModel().set(obj.key, obj.value);
   };
+
+  changeSwitchValue = (event, val) => {
+    let obj = this.state.currParam;
+    obj.value = event.target.checked ? 1 : 0;
+    this.setState({ currParam: obj });
+
+    new GuitarixModel().set(obj.key, obj.value);
+  };
+
+  changeListValue(item) {
+    let obj = this.state.currParam;
+    obj.value = item[0];
+    this.setState({ currParam: obj });
+
+    new GuitarixModel().set(obj.key, obj.value);
+  }
 
   loadParam(item) {
     this.setState({ currParam: item });
+  }
+
+  renderSlider(currParam) {
+    return <Slider vertical value={currParam.value} min={currParam.lower_bound} max={currParam.upper_bound} step={currParam.step} onChange={this.changeSliderValue} />;
+  }
+
+  renderList(currParam) {
+    return (
+      <List style={{ maxHeight: "400px", width: "100%", overflow: "auto" }}>
+        {currParam.value_names.map((item, index) => (
+          <MenuItem button key={item[0]} onClick={this.changeListValue.bind(this, item)} selected={this.state.currParam.value === item[0]}>
+            <Box display="flex" justifyContent="space-between" alignContent="space-between" alignItems="begin" width="100%">
+              <Typography component="div">
+                <Box fontWeight={this.state.currParam.value === item[0] ? 600 : 400}>{item[0]}</Box>
+              </Typography>
+            </Box>
+          </MenuItem>
+        ))}
+      </List>
+    );
+  }
+
+  renderSwitch(currParam) {
+    return <Switch checked={currParam.value} onChange={this.changeSwitchValue} />;
   }
 
   render() {
@@ -96,30 +142,25 @@ class Unit extends React.Component {
         <Box width="50%" height="400px">
           <List style={{ maxHeight: "400px", overflow: "auto" }}>
             {this.state.params.map((item, index) => (
-              <ListItem button key={item.key} onClick={this.loadParam.bind(this, item)}>
+              <MenuItem button key={item.key} onClick={this.loadParam.bind(this, item)} selected={this.state.currParam.key === item.key}>
                 <Box display="flex" justifyContent="space-between" alignContent="space-between" alignItems="begin" width="100%">
                   <Typography component="div">
-                    <Box fontWeight={this.state.currParam.name === item.name ? 600 : 400}>{item.name}</Box>
+                    <Box fontWeight={this.state.currParam.key === item.key ? 600 : 400}>{item.name}</Box>
                   </Typography>
                   <Typography component="div">
-                    <Box fontWeight={this.state.currParam.name === item.name ? 600 : 400}>{item.value}</Box>
+                    <Box fontWeight={this.state.currParam.key === item.key ? 600 : 400}>{item.value}</Box>
                   </Typography>
                 </Box>
-              </ListItem>
+              </MenuItem>
             ))}
           </List>
         </Box>
         {this.state.currParam.name && (
           <Box width="50%" display="flex" alignItems="center" justifyContent="center">
             <Box height="400px">
-              <Slider
-                vertical
-                value={this.state.currParam.value}
-                min={this.state.currParam.lower_bound}
-                max={this.state.currParam.upper_bound}
-                step={this.state.currParam.step}
-                onChange={this.changeValue}
-              />
+              {this.state.currParam.ctl_continous && this.renderSlider(this.state.currParam)}
+              {this.state.currParam.ctl_enum && this.renderList(this.state.currParam)}
+              {this.state.currParam.ctl_switch && this.renderSwitch(this.state.currParam)}
             </Box>
           </Box>
         )}

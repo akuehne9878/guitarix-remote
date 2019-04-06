@@ -19,6 +19,10 @@ class GuitarixModel {
     return this.performGET("queryunit?params=" + unit);
   }
 
+  set(paramname, value) {
+    return this.performGET("set?params=" + paramname + "," + value);
+  }
+
   performGET(api) {
     return fetch(this.baseUrl + api, {
       method: "GET",
