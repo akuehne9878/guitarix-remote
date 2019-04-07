@@ -72,7 +72,7 @@ class Banks extends React.Component {
         <Box display="flex" justifyContent="center">
           <TileContainer>
             {this.state.list.map((item, index) => (
-              <Tile key={item.name} route={"/banks/detail/" + item.name} title={item.name} description={item.description} onClick={this.handleClick.bind(this, item)} />
+              <Tile key={item.name} route={"/banks/detail/" + item.name} title={item.name} description={item.description} />
             ))}
           </TileContainer>
         </Box>

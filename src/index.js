@@ -14,6 +14,7 @@ import SongDetail from "./app/pages/songs/SongDetail";
 import SongNew from "./app/pages/songs/SongNew";
 import Banks from "./app/pages/banks/Banks";
 import Rack from "./app/pages/rack/Rack";
+import Plugins from "./app/pages/plugins/Plugins";
 
 class App extends React.Component {
   constructor(props) {
@@ -54,6 +55,8 @@ class App extends React.Component {
               <Route exact path="/banks/" component={Banks} />
 
               <Route path="/rack/" component={Rack} />
+
+              <Route path="/plugins/" component={Plugins} />
             </Switch>
           </BrowserRouter>
         </div>

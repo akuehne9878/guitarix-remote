@@ -56,7 +56,7 @@ class Tile extends React.Component {
 
     return (
       <Card className={classes.card}>
-        <CardActionArea component={Link} to={this.props.route}>
+        <CardActionArea onClick={this.props.onClick}>
           <CardContent className={classes.content}>
             <Typography variant="h6">{this.props.title}</Typography>
             <Typography variant="subtitle2">{this.props.description}</Typography>

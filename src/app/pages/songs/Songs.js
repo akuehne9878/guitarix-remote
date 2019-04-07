@@ -30,7 +30,7 @@ class Songs extends React.Component {
   }
 
   handleClick(obj) {
-    this.setState({ selectedItem: obj });
+    this.context.router.history.push("/songs/detail/" + obj.songID);
   }
 
   handleNewSong = () => {
@@ -38,10 +38,6 @@ class Songs extends React.Component {
   };
 
   render() {
-    if (this.state.selectedItem) {
-      this.context.router.history.push("/songs/detail/" + this.state.selectedItem.songID);
-    }
-
     return (
       <div>
         <GuitarixAppBar>
@@ -65,7 +61,7 @@ class Songs extends React.Component {
         <Box display="flex" justifyContent="center">
           <TileContainer>
             {this.state.list.map((item, index) => (
-              <Tile key={item.songID} route={"/songs/detail/" + item.songID} title={item.name} description={item.artist} onClick={this.handleClick.bind(this, item)} />
+              <Tile key={item.songID} title={item.name} description={item.artist} onClick={this.handleClick.bind(this, item)} />
             ))}
           </TileContainer>
         </Box>

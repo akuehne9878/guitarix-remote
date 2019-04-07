@@ -3,14 +3,13 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { unstable_Box as Box } from "@material-ui/core/Box";
 import PropTypes from "prop-types";
-import AddIcon from "@material-ui/icons/Add";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 
 import GuitarixModel from "../../model/GuitarixModel.js";
 import GuitarixAppBar, { Left, Right, Center } from "../../components/GuitarixAppBar.js";
 
 import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
 import MenuItem from "@material-ui/core/MenuItem";
 
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -18,12 +17,11 @@ import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/Inbox";
 
 import Unit from "./Unit";
-import { BrowserRouter } from "react-router-dom";
+
 import { Route } from "react-router-dom";
 import { Switch } from "react-router-dom";
-import { Link } from "react-router-dom";
 
-import { withRouter } from "react-router";
+import Menu from "@material-ui/core/Menu";
 
 class Rack extends React.Component {
   constructor(props) {
@@ -33,7 +31,9 @@ class Rack extends React.Component {
       rack: {
         units: [],
         loadUnit: ""
-      }
+      },
+      currentBank: "",
+      currentPreset: ""
     };
   }
 
@@ -51,20 +51,6 @@ class Rack extends React.Component {
       let queryLength = 0;
 
       data.result.forEach(function(unit) {
-        /*let unitModel = new GuitarixModel();
-        unitModel.queryUnit(unit).then(data => {
-          let obj = data.result;
-          obj.unitName = unit;
-          rack.units.push(obj);
-
-          queryLength++;
-          if (queryLength === unitLength) {
-            that.setState({ rack: rack });
-            console.log(JSON.stringify(rack));
-          }
-        });
-       
-        */
         rack.units.push({ unitName: unit });
       });
 
@@ -72,6 +58,14 @@ class Rack extends React.Component {
       let chunks = pathname.split("/");
 
       that.setState({ rack: rack, currUnit: chunks[chunks.length - 1] });
+    });
+
+    model.getCurrentBank().then(data => {
+      that.setState({ currentBank: data["system.current_bank"] });
+    });
+
+    model.getCurrentPreset().then(data => {
+      that.setState({ currentPreset: data["system.current_preset"] });
     });
   }
 
@@ -90,16 +84,20 @@ class Rack extends React.Component {
     this.context.router.history.push("/");
   }
 
-  /*
-  handleNewSong = () => {
-    this.context.router.history.push("/songs/new");
+  handleAddPlugin = () => {
+    this.context.router.history.push("/plugins");
   };
-  */
+
+  handleMoreButton = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
+
+  handleCloseMenu = item => {
+    this.setState({ anchorEl: null });
+  };
 
   render() {
-    //  if (this.state.selectedItem) {
-    //    this.context.router.history.push("/songs/detail/" + this.state.selectedItem.songID);
-    //  }
+    const { anchorEl } = this.state;
 
     return (
       <div>
@@ -111,13 +109,17 @@ class Rack extends React.Component {
             </Button>
           </Left>
           <Center>
-            <Typography variant="h6">Rack</Typography>
+            <Typography variant="h6">
+              Rack - {this.state.currentPreset} ({this.state.currentBank})
+            </Typography>
           </Center>
           <Right>
-            <Button variant="contained" color="primary" onClick={this.handleAddPlugin.bind(this)}>
-              <AddIcon />
-              Add Plugin
+            <Button color="primary" onClick={this.handleMoreButton.bind(this)}>
+              <MoreVertIcon />
             </Button>
+            <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={this.handleCloseMenu}>
+              <MenuItem onClick={this.handleAddPlugin.bind(this)}>Add Plugin</MenuItem>
+            </Menu>
           </Right>
         </GuitarixAppBar>
 

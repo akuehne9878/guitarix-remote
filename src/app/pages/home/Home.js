@@ -28,7 +28,8 @@ class Home extends React.Component {
         { title: "Songs", route: "/songs", description: "d", id: 2, icon: style => <QueueMusicIcon style={style} /> },
         { title: "Banks", route: "/banks", description: "b", id: 3, icon: style => <EditIcon style={style} /> },
         { title: "Tuner", route: "/", description: "d", id: 4, icon: style => <TuneIcon style={style} /> },
-        { title: "Rack", route: "/rack", description: "b", id: 5, icon: style => <PlayCircleFilledIcon style={style} /> }
+        { title: "Rack", route: "/rack", description: "b", id: 5, icon: style => <PlayCircleFilledIcon style={style} /> },
+        { title: "Plugins", route: "/plugins", description: "b", id: 6, icon: style => <PlayCircleFilledIcon style={style} /> }
       ],
       version: ""
     };
@@ -43,6 +44,10 @@ class Home extends React.Component {
     model.getVersion().then(data => {
       this.setState({ version: data["result"][2] });
     });
+  }
+
+  handleClick(item) {
+    this.context.router.history.push(item.route);
   }
 
   render() {
@@ -60,7 +65,7 @@ class Home extends React.Component {
         <Box display="flex" justifyContent="center">
           <TileContainer>
             {this.state.items.map(item => (
-              <Tile key={item.id} title={item.title} route={item.route} icon={item.icon} />
+              <Tile key={item.id} title={item.title} onClick={this.handleClick.bind(this, item)} icon={item.icon} />
             ))}
           </TileContainer>
         </Box>
